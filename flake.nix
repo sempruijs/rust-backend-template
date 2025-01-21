@@ -128,7 +128,7 @@
           drv = backend;
         };
 
-        devShells.default = craneLib.devShell {
+        devShells.default = craneLibLLvmTools.devShell {
           # Inherit inputs from checks.
           checks = self.checks.${system};
 
