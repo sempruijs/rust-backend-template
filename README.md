@@ -80,7 +80,7 @@ If everything went well, you have a running backend that you can easily customiz
 ## Contributing
 
 If you find a bug, spelling mistake, or have an addition that complements the minimal setup, please create an [issue](https://github.com/sempruijs/rust-backend-template/issues/new?template=Blank+issue) or [pull request](https://github.com/sempruijs/rust-backend-template/pulls).  
-Thank you <3
+Thank you ❤️
 
 ## License
 
