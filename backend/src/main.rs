@@ -1,13 +1,6 @@
-use crate::controller::activity::*;
 use crate::controller::authentication::authentication_routes;
-use crate::controller::ticket::*;
 use crate::domain::User;
-use crate::repository::activity::*;
-use crate::repository::ticket::*;
-use crate::service::activity::*;
 use crate::service::authentication::*;
-use crate::service::place::*;
-use crate::service::ticket::*;
 use crate::service::user::UserService;
 use crate::AuthenticationService;
 use dotenv::dotenv;
@@ -25,10 +18,8 @@ use std::sync::Arc;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 extern crate rocket;
-use crate::controller::place::*;
 use crate::controller::user::*;
 use crate::docs::ApiDoc;
-use crate::repository::place::PlaceRepositoryImpl;
 use crate::repository::user::UserRepositoryImpl;
 use crate::service::user::UserServiceImpl;
 use sqlx::PgPool;
@@ -77,7 +68,7 @@ async fn main() -> Result<(), rocket::Error> {
     // Read the database path from enviousment variables.
     dotenv().ok();
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let secret_key = env::var("DINO_SECRET_KEY").expect("DINO_SECRET_KEY must be set");
+    let secret_key = env::var("SECRET_KEY").expect("SECRETKEY must be set for generating JWT");
 
     let pool = PgPool::connect_lazy(&database_url).expect("Failed to connect to the database");
 

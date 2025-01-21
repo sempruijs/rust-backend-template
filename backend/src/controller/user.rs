@@ -1,5 +1,4 @@
 use crate::domain::User;
-use crate::parser::*;
 use crate::service::user::UserService;
 use crate::Status;
 use rocket::get;
@@ -18,7 +17,6 @@ use uuid::Uuid;
 struct CreateUserRequest {
     pub email: String,
     pub name: String,
-    pub date_of_birth: String,
     pub password: String,
 }
 
@@ -32,7 +30,7 @@ struct CreateUserRequest {
         (status = 400, description = "Invalid input data"),
         (status = 500, description = "Internal server error")
     ),
-    description = "Creates a user. The email should be unique. Date should be in iso_8601 format, so yyyy-mm-dd.",
+    description = "Creates a user. The email should be unique.",
     operation_id = "createUser",
     tag = "Users"
 )]
