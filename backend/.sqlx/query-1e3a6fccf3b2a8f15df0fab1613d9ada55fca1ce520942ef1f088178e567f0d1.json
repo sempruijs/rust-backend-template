@@ -1,0 +1,19 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE places\n            SET house_number = $1,\n                water = $2,\n                gas = $3,\n                light = $4,\n                in_shadow = $5\n            WHERE place_id = $6\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Bool",
+        "Bool",
+        "Bool",
+        "Bool",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "1e3a6fccf3b2a8f15df0fab1613d9ada55fca1ce520942ef1f088178e567f0d1"
+}

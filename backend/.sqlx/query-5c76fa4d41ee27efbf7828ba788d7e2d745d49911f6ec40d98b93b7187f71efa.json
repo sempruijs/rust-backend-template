@@ -1,0 +1,53 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                SELECT places.place_id, places.house_number, water, gas, light, in_shadow\n                FROM places\n                WHERE NOT EXISTS (\n                    SELECT 1\n                    FROM tickets\n                    WHERE tickets.place_id = places.place_id\n                    AND (\n                        (tickets.start_date <= $2 AND tickets.end_date >= $1)\n                        OR (tickets.start_date <= $1 AND tickets.end_date >= $2)\n                        OR (tickets.start_date >= $1 AND tickets.end_date <= $2)\n                    )\n                )\n                ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "place_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "house_number",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "water",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 3,
+        "name": "gas",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 4,
+        "name": "light",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 5,
+        "name": "in_shadow",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Date",
+        "Date"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "5c76fa4d41ee27efbf7828ba788d7e2d745d49911f6ec40d98b93b7187f71efa"
+}

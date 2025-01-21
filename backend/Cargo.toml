@@ -1,0 +1,20 @@
+[package]
+name = "backend"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+dotenv = "0.15"
+sqlx = { version = "0.8.2", features = ["postgres", "runtime-tokio", "macros", "chrono", "uuid" ] }
+serde = { version = "1.0.210", features = ["derive"] }
+serde_json = "1.0.128"
+env_logger = "0.11.5"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+bcrypt = "0.14"
+jsonwebtoken = "9.3.0"
+utoipa-swagger-ui = { version = "8.1.1", features = ["rocket", "vendored"] }
+utoipa = "5.3.1"
+rocket = { version = "0.5.0-rc.2", features = ["json"] }
+rocket_cors = "0.6.0"
