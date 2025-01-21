@@ -1,6 +1,5 @@
 use crate::domain::User;
 use crate::service::user::UserService;
-use crate::Status;
 use rocket::get;
 use rocket::post;
 use rocket::response::status;
@@ -43,7 +42,6 @@ async fn create_user(
     let user = User {
         user_id: Uuid::new_v4(), // Generate a new UUID for the user
         name: payload.name.clone(),
-        date_of_birth: iso8601_str_to_date(&payload.date_of_birth).unwrap(), // Ensure this field has the correct type
         email: payload.email.clone(),
         password: payload.password.clone(),
     };
@@ -61,7 +59,6 @@ struct GetUserResponse {
     email: String,
 }
 
-// Return type should later be CreateUserRepsonse
 #[utoipa::path(
     get,
     path = "/users",
@@ -90,48 +87,6 @@ async fn get_user(
     }))
 }
 
-#[derive(Debug, Serialize, Deserialize, ToSchema)]
-struct GetUsersResponse {
-    users: Vec<GetUserResponse>,
-}
-
-#[utoipa::path(
-    get,
-    path = "/users/all",
-    responses(
-        (status = 201, description = "Users recieved successfully", body = GetUsersResponse),
-        (status = 400, description = "Invalid input data"),
-        (status = 500, description = "Internal server error")
-    ),
-    description = "Recieve user details.",
-    operation_id = "createUser",
-    tag = "Users",
-    security(
-        ("jwt_auth" = [])
-    )
-)]
-#[get("/all")]
-async fn get_users(
-    user_service: &State<Arc<dyn UserService>>,
-    _user: User,
-) -> Result<Json<GetUsersResponse>, status::Custom<String>> {
-    match user_service.get_all().await {
-        Ok(users) => Ok(Json(GetUsersResponse {
-            users: users
-                .into_iter()
-                .map(|user| GetUserResponse {
-                    email: user.email,
-                    name: user.name,
-                })
-                .collect(),
-        })),
-        Err(_) => Err(status::Custom(
-            Status::InternalServerError,
-            "Internal server error".to_string(),
-        )),
-    }
-}
-
 pub fn user_routes() -> Vec<rocket::Route> {
-    routes![create_user, get_user, get_users]
+    routes![create_user, get_user]
 }

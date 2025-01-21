@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n            SELECT user_id, name, date_of_birth, email, password\n            FROM users\n            ",
+  "query": "SELECT user_id, name, email, password\n             FROM users\n             WHERE user_id = $1",
   "describe": {
     "columns": [
       {
@@ -15,30 +15,26 @@
       },
       {
         "ordinal": 2,
-        "name": "date_of_birth",
-        "type_info": "Date"
-      },
-      {
-        "ordinal": 3,
         "name": "email",
         "type_info": "Text"
       },
       {
-        "ordinal": 4,
+        "ordinal": 3,
         "name": "password",
         "type_info": "Text"
       }
     ],
     "parameters": {
-      "Left": []
+      "Left": [
+        "Uuid"
+      ]
     },
     "nullable": [
-      false,
       false,
       false,
       false,
       false
     ]
   },
-  "hash": "681c6e5cbda37ba3017e6f1b63334fd502554d930a4f76afbfcdfa591e4eaeb4"
+  "hash": "ad2657c193320d03277aebfb6afb1020b5d1e1065939e395852aa348cb5f0c13"
 }

@@ -1,8 +1,8 @@
 use crate::domain::User;
 use rocket::async_trait;
-use sqlx::types::chrono::NaiveDate;
 use sqlx::types::Uuid;
 use sqlx::PgPool;
+
 #[async_trait]
 pub trait UserRepository: Send + Sync {
     async fn create(&self, user: User) -> Result<(), sqlx::Error>;
@@ -23,7 +23,7 @@ impl UserRepository for UserRepositoryImpl {
     async fn create(&self, user: User) -> Result<(), sqlx::Error> {
         sqlx::query!(
             "INSERT INTO users (user_id, name, email, password)
-             VALUES ($1, $2, $3, $4, $5)",
+             VALUES ($1, $2, $3, $4)",
             user.user_id,
             user.name,
             user.email,
@@ -37,7 +37,7 @@ impl UserRepository for UserRepositoryImpl {
     async fn from_uuid(&self, user_id: Uuid) -> Result<Option<User>, sqlx::Error> {
         let user = sqlx::query_as!(
             User,
-            "SELECT user_id, name, date_of_birth, email, password
+            "SELECT user_id, name, email, password
              FROM users
              WHERE user_id = $1",
             user_id
@@ -52,7 +52,7 @@ impl UserRepository for UserRepositoryImpl {
         let query_result = sqlx::query_as!(
             User,
             r#"
-            SELECT user_id, name, date_of_birth, email, password
+            SELECT user_id, name, email, password
             FROM users
             WHERE email = $1
             "#,
