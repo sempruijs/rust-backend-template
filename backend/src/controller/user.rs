@@ -12,6 +12,7 @@ use std::sync::Arc;
 use utoipa::ToSchema;
 use uuid::Uuid;
 
+/// Request body for creating a user.
 #[derive(Debug, Serialize, Deserialize, ToSchema)]
 struct CreateUserRequest {
     pub email: String,
@@ -19,7 +20,9 @@ struct CreateUserRequest {
     pub password: String,
 }
 
-// Return type should later be CreateUserRepsonse
+// Utoipa is the crate that generates swagger documentation for your endpoints.
+// The documentation for each endpoint is combined in docs.rs
+// Make sure to add your endpoint in docs.rs when you write new endpoints.
 #[utoipa::path(
     post,
     path = "/users",
@@ -53,6 +56,7 @@ async fn create_user(
     }
 }
 
+/// Response for recieving user information.
 #[derive(Debug, Serialize, Deserialize, ToSchema)]
 struct GetUserResponse {
     name: String,
@@ -76,17 +80,17 @@ struct GetUserResponse {
 )]
 #[get("/")]
 async fn get_user(
-    // user_service: &State<Arc<dyn UserService>>,
+    // user is recieved by decoding the JWT.
+    // when a User is required as argument for an endpoiint, is automatically protected with JWT.
     user: User,
 ) -> Result<Json<GetUserResponse>, status::Custom<String>> {
-    dbg!(&user);
-
     Ok(Json(GetUserResponse {
         email: user.email,
         name: user.name,
     }))
 }
 
+// Combine all the user routes.
 pub fn user_routes() -> Vec<rocket::Route> {
     routes![create_user, get_user]
 }

@@ -10,14 +10,23 @@ pub trait UserRepository: Send + Sync {
     async fn from_uuid(&self, user_id: Uuid) -> Result<Option<User>, sqlx::Error>;
 
     async fn from_email(&self, email: String) -> Result<Option<User>, sqlx::Error>;
+
+    // add more functions such as update or delete.
+}
+
+#[derive(Debug, Clone)]
+pub struct UserRepositoryImpl {
+    pool: PgPool,
 }
 
 impl UserRepositoryImpl {
+    // A simpel new function for the user Repository
     pub fn new(pool: PgPool) -> Self {
         Self { pool }
     }
 }
 
+// Implement the UserRepository trait for UserRepositoryImpl.
 #[async_trait]
 impl UserRepository for UserRepositoryImpl {
     async fn create(&self, user: User) -> Result<(), sqlx::Error> {
@@ -63,9 +72,4 @@ impl UserRepository for UserRepositoryImpl {
 
         Ok(query_result)
     }
-}
-
-#[derive(Debug, Clone)]
-pub struct UserRepositoryImpl {
-    pool: PgPool,
 }
