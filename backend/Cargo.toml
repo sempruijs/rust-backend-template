@@ -14,7 +14,7 @@ chrono = { version = "0.4", features = ["serde"] }
 uuid = { version = "1.0", features = ["v4", "serde"] }
 bcrypt = "0.14"
 jsonwebtoken = "9.3.0"
-utoipa-swagger-ui = { version = "8.1.1", features = ["rocket", "vendored"] }
+utoipa-swagger-ui = { version = "9.0.0", features = ["rocket", "vendored"] }
 utoipa = "5.3.1"
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
 rocket_cors = "0.6.0"
